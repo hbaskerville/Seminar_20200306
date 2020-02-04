@@ -44,6 +44,13 @@ resource "aws_security_group" "web_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    protocol    = "tcp"
+    from_port   = 8200
+    to_port     = 8200
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     cidr_blocks = ["0.0.0.0/0"]
     protocol    = "-1"
@@ -130,7 +137,7 @@ resource "aws_instance" "web_ec2" {
 
   user_data = <<-EOF
 					  #!/bin/sh
-            vault server -dev > vault.log & 
+            /opt/vault/bin/vault server -dev > /tmp/vault.log & 
             EOF
 
 }
@@ -157,13 +164,13 @@ resource "aws_alb_target_group_attachment" "alb_attach_tg_web" {
   count            = var.web_instance_count
   target_group_arn = aws_alb_target_group.web_tg.arn
   target_id        = aws_instance.web_ec2.*.id[count.index]
-  port             = 80
+  port             = 8200
 }
 
 # Listener for HTTP/HTTPS
 resource "aws_alb_listener" "http_web" {
   load_balancer_arn = aws_alb.web_alb.arn
-  port              = 80
+  port              = 8200
   protocol          = "HTTP"
 
   default_action {
