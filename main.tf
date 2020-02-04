@@ -130,7 +130,7 @@ resource "aws_instance" "web_ec2" {
 
   user_data = <<-EOF
 					  #!/bin/sh
-            vault server -dev > /tmp/vault.log 
+            vault server -dev > vault.log & 
             EOF
 
 }
