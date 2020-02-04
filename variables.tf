@@ -34,7 +34,7 @@ variable "public_subnet_name" {
 }
 
 variable "ami" {
-  default = "ami-06d9ad3f86032262d"
+  default = "ami-0392dd50db9931d28"
 }
 
 variable "web_instance_name" {
