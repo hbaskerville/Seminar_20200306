@@ -46,7 +46,3 @@ variable "tags" {
   default     = {}
   description = "Key/value tags to assign to all AWS resources"
 }
-
-variable "key_name" {
-  description = "Desired name of AWS key pair"
-}
