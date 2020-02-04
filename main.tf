@@ -131,6 +131,7 @@ resource "aws_instance" "web_ec2" {
   user_data = <<-EOF
 					  #!/bin/sh
             sudo apt update
+            sudo apt update
             EOF
 
 }
