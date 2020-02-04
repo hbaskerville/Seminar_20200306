@@ -118,7 +118,7 @@ resource "aws_instance" "web_ec2" {
   ami   = var.ami
   count = var.web_instance_count
   tags = merge(var.tags, map(
-    "Name", "${var.web_instance_name}-${count.index}-web",
+    "Name", "${var.web_instance_name}-${count.index}",
     "TTL", "270h"
   ))
   instance_type = var.web_instance_type
