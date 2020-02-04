@@ -136,35 +136,21 @@ resource "aws_instance" "web_ec2" {
   key_name      = "${aws_key_pair.auth.id}"
 
   user_data = <<-EOF
-	#!/bin/bash
-	echo "export VAULT_ADDR='http://0.0.0.0:8200'" >> /etc/profile
-	echo "storage "file" {" > /opt/vault/config/vault-config.hcl
-	echo "   path = \"/opt/vault/data\"" >> /opt/vault/config/vault-config.hcl
-	echo "}" >> /opt/vault/config/vault-config.hcl
-	echo "listener "tcp" {" >> /opt/vault/config/vault-config.hcl
-	echo "  address = \"127.0.0.1:8200\"" >> /opt/vault/config/vault-config.hcl
-	echo "  tls_disable = 1" >> /opt/vault/config/vault-config.hcl
-	echo "}" >> /opt/vault/config/vault-config.hcl
-	echo "ui = true" >> /opt/vault/config/vault-config.hcl
-	
-	export VAULT_ADDR='http://0.0.0.0:8200'
-	/opt/vault/bin/vault server -config /opt/vault/config/vault-config.hcl > /tmp/vault.log 2>&1 &
-	sleep 3
-	/opt/vault/bin/vault operator init >> /tmp/vault.log 2>&1
-
-	count=0
-	cat /tmp/vault.log | while read line
-		do
-  		if [[ $line =~ "Unseal Key "  ]]; then
-    			echo ${line##* }
-			/opt/vault/bin/vault operator unseal ${line##* } >> /tmp/vault.log 2>&1
-    			count=`expr $count + 1`
-			if [ $count -eq 3 ]; then
-      				exit 0
-    			fi
-  		fi
-	done
-	EOF
+IyEvYmluL2Jhc2gNCg0KZWNobyAiZXhwb3J0IFZBVUxUX0FERFI9J2h0dHA6Ly8wLjAuMC4wOjgy
+MDAnIiA+PiAvZXRjL3Byb2ZpbGUNCg0KY2F0ID4gL29wdC92YXVsdC9jb25maWcvdmF1bHQtY29u
+ZmlnLmhjbCA8PEVPRg0Kc3RvcmFnZSAiZmlsZSIgew0KICAgcGF0aCA9ICIvb3B0L3ZhdWx0L2Rh
+dGEiDQp9DQoNCmxpc3RlbmVyICJ0Y3AiIHsNCiAgYWRkcmVzcyAgICAgPSAiMC4wLjAuMDo4MjAw
+Ig0KICB0bHNfZGlzYWJsZSA9IDENCn0NCg0KdWkgPSB0cnVlDQpFT0YNCg0KZXhwb3J0IFZBVUxU
+X0FERFI9J2h0dHA6Ly8wLjAuMC4wOjgyMDAnDQovb3B0L3ZhdWx0L2Jpbi92YXVsdCBzZXJ2ZXIg
+LWNvbmZpZyAvb3B0L3ZhdWx0L2NvbmZpZy92YXVsdC1jb25maWcuaGNsID4gL3RtcC92YXVsdC5s
+b2cgMj4mMSAmDQpzbGVlcCAzDQovb3B0L3ZhdWx0L2Jpbi92YXVsdCBvcGVyYXRvciBpbml0ID4+
+IC90bXAvdmF1bHQubG9nIDI+JjENCg0KY291bnQ9MA0KY2F0IC90bXAvdmF1bHQubG9nIHwgd2hp
+bGUgcmVhZCBsaW5lDQpkbw0KICBpZiBbWyAkbGluZSA9fiAiVW5zZWFsIEtleSAiICBdXTsgdGhl
+bg0KICAgIGVjaG8gJHtsaW5lIyMqIH0NCg0KICAgIC9vcHQvdmF1bHQvYmluL3ZhdWx0IG9wZXJh
+dG9yIHVuc2VhbCAke2xpbmUjIyogfSA+PiAvdG1wL3ZhdWx0LmxvZyAyPiYxDQoNCiAgICBjb3Vu
+dD1gZXhwciAkY291bnQgKyAxYA0KICAgIGlmIFsgJGNvdW50IC1lcSAzIF07IHRoZW4NCiAgICAg
+IGV4aXQgMA0KICAgIGZpDQogIGZpDQpkb25lDQo=
+EOF
 }
 
 resource "aws_alb" "web_alb" {
