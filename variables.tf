@@ -46,3 +46,5 @@ variable "tags" {
   default     = {}
   description = "Key/value tags to assign to all AWS resources"
 }
+
+variable "public_key" {}
