@@ -144,7 +144,7 @@ resource "aws_alb" "web_alb" {
 
 resource "aws_alb_target_group" "web_tg" {
   name     = "web-tg"
-  port     = 80
+  port     = 8200
   protocol = "HTTP"
   vpc_id   = aws_vpc.playground.id
 
