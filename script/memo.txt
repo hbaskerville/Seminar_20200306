@@ -1,0 +1,1 @@
+PowerShell -ExecutionPolicy RemoteSigned .\script\Check_EC2instance.ps1
