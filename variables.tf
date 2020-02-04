@@ -38,7 +38,7 @@ variable "ami" {
 }
 
 variable "web_instance_name" {
-  default = "web"
+  default = "TFtest"
 }
 
 variable "tags" {
