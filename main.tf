@@ -136,10 +136,35 @@ resource "aws_instance" "web_ec2" {
   key_name      = "${aws_key_pair.auth.id}"
 
   user_data = <<-EOF
-					  #!/bin/sh
-            /opt/vault/bin/vault server -dev > /tmp/vault.log & 
-            EOF
+	#!/bin/bash
+	echo "export VAULT_ADDR='http://0.0.0.0:8200'" >> /etc/profile
+	echo "storage "file" {" > /opt/vault/config/vault-config.hcl
+	echo "   path = \"/opt/vault/data\"" >> /opt/vault/config/vault-config.hcl
+	echo "}" >> /opt/vault/config/vault-config.hcl
+	echo "listener "tcp" {" >> /opt/vault/config/vault-config.hcl
+	echo "  address = \"127.0.0.1:8200\"" >> /opt/vault/config/vault-config.hcl
+	echo "  tls_disable = 1" >> /opt/vault/config/vault-config.hcl
+	echo "}" >> /opt/vault/config/vault-config.hcl
+	echo "ui = true" >> /opt/vault/config/vault-config.hcl
+	
+	export VAULT_ADDR='http://0.0.0.0:8200'
+	/opt/vault/bin/vault server -config /opt/vault/config/vault-config.hcl > /tmp/vault.log 2>&1 &
+	sleep 3
+	/opt/vault/bin/vault operator init >> /tmp/vault.log 2>&1
 
+	count=0
+	cat /tmp/vault.log | while read line
+		do
+  		if [[ $line =~ "Unseal Key "  ]]; then
+    			echo ${line##* }
+			/opt/vault/bin/vault operator unseal ${line##* } >> /tmp/vault.log 2>&1
+    			count=`expr $count + 1`
+			if [ $count -eq 3 ]; then
+      				exit 0
+    			fi
+  		fi
+	done
+	EOF
 }
 
 resource "aws_alb" "web_alb" {
