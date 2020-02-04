@@ -126,6 +126,7 @@ resource "aws_instance" "web_ec2" {
   aws_security_group.web_security_group.id]
   subnet_id                   = aws_subnet.public.*.id[0]
   associate_public_ip_address = true
+  key_name      = "${aws_key_pair.auth.id}"
 
   user_data = <<-EOF
 					  #!/bin/sh
@@ -171,4 +172,10 @@ resource "aws_alb_listener" "http_web" {
     type             = "forward"
     target_group_arn = aws_alb_target_group.web_tg.arn
   }
+}
+
+# Key pair
+resource "aws_key_pair" "auth" {
+  key_name   = "${var.key_name}"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC0db2q2r/sXlLc7r0unrbyY8J9HhOGHAB98XRv4x4fqykeQvpkAZ2z3jm3T888zftHWlVRCFqbD9JXEgH0r4tosUpy5vGNIzZTuRm8u/o0czm4son2neYnNoDvSdfMEg/a4KqJBtJrfRLUIcYD2yZcglOv45Gpkd9S3Rh90yV80zRSa3QOevBh9VdhF2mhUkiqnE8nC05In1Wz9xTH5z//Q/lLhd74HICFQMTDxkm4NxxaQJ4gTwmH+JhD+dkWR2XwsQYt3XxPScBY2nWOL4FLo0zLe5WWL4Ga5t41friIGJb+b3FKJp7kg7BcAWIUvnPHnyG4bta2AoNB8wouk9xlV2zCCZY2a4Cw5At4ipeGtcxCde+uPRqDswNKJCo77rH2v/++kci09Jw64Nf1pbaeQfJGi+slPQNK20FYPTx/TeJhXYNuuPPglKPjUyiojOvcxTqpN7VmSEEr5HO8g4Bs7Acpraq9JRBNue9zNTUTx0AQuBAC2+ePtpbgraBapGJF4UzJ1ztCNNfulWlmVcRvmRLR0jm7ptm4YBaVJuwAZXNb/x9gqoolsa5FEsX10dckEKUOi7W3Ue8dURCrozCFw97ALJzNDY97qSwxSx332Qud/sKmBN66lxheEIgJp59t3D/fS4L5fh65XJesg7imD5D9rBEqzw46ilcNenGdDw== LAC"
 }
