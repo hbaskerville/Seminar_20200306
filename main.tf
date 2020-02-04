@@ -131,8 +131,6 @@ resource "aws_instance" "web_ec2" {
   user_data = <<-EOF
 					  #!/bin/sh
             sudo apt update
-            sudo apt install -y apache2
-					  sudo systemctl start apache2.service
             EOF
 
 }
