@@ -1,6 +1,10 @@
 variable "access_key" {}
 variable "secret_key" {}
 
+variable "vault_addr" {}
+variable "login_approle_role_id" {}
+variable "login_approle_secret_id" {}
+
 variable "web_instance_count" {
   default = 1
 }
