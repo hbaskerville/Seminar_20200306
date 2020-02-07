@@ -8,7 +8,20 @@ provider "aws" {
   region     = var.region
 }
 
+provider “vault” {
+address = var.vault_addr
+auth_login {
+  path = “auth/approle/login”
+    parameters = {
+      role_id   = var.login_approle_role_id
+      secret_id = var.login_approle_secret_id
+    }
+  }
+}
 
+data “vault_generic_secret” “aws” {
+  path = “aws/creds/root”
+}
 
 # Web Security Group
 resource "aws_security_group" "web_security_group" {
