@@ -8,7 +8,7 @@ provider "aws" {
   region     = var.region
 }
 
-provider “vault” {
+provider "vault" {
 address = var.vault_addr
 auth_login {
   path = “auth/approle/login”
