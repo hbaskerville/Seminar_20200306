@@ -20,7 +20,7 @@ auth_login {
 }
 
 data “vault_generic_secret” “aws” {
-  path = “aws/creds/root”
+  path = “aws/creds/tfrole”
 }
 
 # Web Security Group
