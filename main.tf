@@ -9,9 +9,9 @@ provider "aws" {
 }
 
 provider "vault" {
-address = var.vault_addr
-auth_login {
-  path = “auth/approle/login”
+  address = var.vault_addr
+  auth_login {
+    path = "auth/approle/login"
     parameters = {
       role_id   = var.login_approle_role_id
       secret_id = var.login_approle_secret_id
@@ -19,8 +19,8 @@ auth_login {
   }
 }
 
-data “vault_generic_secret” “aws” {
-  path = “aws/creds/tfrole”
+data "vault_generic_secret" "aws" {
+  path = "aws/creds/tfrole"
 }
 
 # Web Security Group
