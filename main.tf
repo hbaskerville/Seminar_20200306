@@ -151,7 +151,7 @@ resource "aws_instance" "web_ec2" {
   aws_security_group.web_security_group.id]
   subnet_id                   = aws_subnet.public.*.id[0]
   associate_public_ip_address = true
-  key_name      = "${aws_key_pair.auth.id}"
+  key_name      = aws_key_pair.auth.id
 
   user_data = <<-EOF
 IyEvYmluL2Jhc2gNCg0KIyMjIFNldCBWQVVMVF9BRERSDQplY2hvICJleHBvcnQgVkFVTFRfQURE
