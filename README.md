@@ -9,3 +9,4 @@
 ### 資料の解説
 - [main.tf](contents/main.md)  
 - [variables.tf](contents/variables.md)  
+- [おまけ vaultの設定](contents/vault.md)  
