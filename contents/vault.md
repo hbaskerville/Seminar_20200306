@@ -34,7 +34,7 @@ path "auth/token/create" {
   capabilities = ["create","update"]
 }
 
-vault policy write test config/tfrole.hcl
+vault policy write tfrole config/tfrole.hcl
 ```
 
 
