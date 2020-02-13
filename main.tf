@@ -2,9 +2,10 @@ terraform {
   required_version = "~> 0.12"
 }
 
-data "vault_aws_access_credentials" "aws_creds" {
-  backend = "aws"
-  role = "tfrole"
+provider "aws" {
+  access_key = data.vault_aws_access_credentials.aws_creds.access_key
+  secret_key = data.vault_aws_access_credentials.aws_creds.secret_key
+  region     = var.region
 }
 
 provider "vault" {
@@ -18,14 +19,13 @@ provider "vault" {
   }
 }
 
-data "vault_generic_secret" "aws" {
-  path = "aws/creds/tfrole"
+data "vault_aws_access_credentials" "aws_creds" {
+  backend = "aws"
+  role = "tfrole"
 }
 
-provider "aws" {
-  access_key = data.vault_aws_access_credentials.aws_creds.access_key
-  secret_key = data.vault_aws_access_credentials.aws_creds.secret_key
-  region     = var.region
+data "vault_generic_secret" "aws" {
+  path = "aws/creds/tfrole"
 }
 
 # Web Security Group
